@@ -63,7 +63,7 @@ ID3D11Buffer*           g_pConstantBuffer = nullptr;
 XMMATRIX                g_World;
 XMMATRIX                g_View;
 XMMATRIX                g_Projection;
-
+ID3D11RasterizerState* m_rasterState = 0;
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -425,9 +425,15 @@ HRESULT InitDevice()
     UINT offset = 0;
     g_pImmediateContext->IASetVertexBuffers( 0, 1, &g_pVertexBuffer, &stride, &offset );
 
+    //RASTERIZER STATE
+
+
+
     // Create index buffer
     WORD indices[] =
     {
+        
+
         3,1,0,
         2,1,3,
 
@@ -472,9 +478,10 @@ HRESULT InitDevice()
 
     // Initialize the world matrix
 	g_World = XMMatrixIdentity();
+    
 
     // Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet( 0.0f, 1.0f, -5.0f, 0.0f );
+	XMVECTOR Eye = XMVectorSet( -2.8f, 2.0f, -5.0f, 0.0f );
 	XMVECTOR At = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 	XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 	g_View = XMMatrixLookAtLH( Eye, At, Up );
@@ -558,11 +565,29 @@ void Render()
             timeStart = timeCur;
         t = ( timeCur - timeStart ) / 1000.0f;
     }
+    //
+    //RASTERIZER
+    //
+    {
+    D3D11_RASTERIZER_DESC rasterDesc;
+    rasterDesc.CullMode = D3D11_CULL_NONE;
+    rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
+    rasterDesc.ScissorEnable = false;
+    rasterDesc.DepthBias = 0;
+    rasterDesc.DepthBiasClamp = 0.0f;
+    rasterDesc.DepthClipEnable = true;
+    rasterDesc.MultisampleEnable = false;
+    rasterDesc.SlopeScaledDepthBias = 0.0f;
+    
+    g_pd3dDevice->CreateRasterizerState(&rasterDesc, &m_rasterState);
+
+    g_pImmediateContext->RSSetState(m_rasterState);
+    }
 
     //
     // Animate the cube
     //
-	g_World = XMMatrixRotationY( t );
+	g_World = XMMatrixRotationY( 0.5 );
 
     //
     // Clear the back buffer
@@ -585,7 +610,7 @@ void Render()
 	g_pImmediateContext->VSSetConstantBuffers( 0, 1, &g_pConstantBuffer );
 	g_pImmediateContext->PSSetShader( g_pPixelShader, nullptr, 0 );
 	g_pImmediateContext->DrawIndexed( 36, 0, 0 );        // 36 vertices needed for 12 triangles in a triangle list
-
+   
     //
     // Present our back buffer to our front buffer
     //
