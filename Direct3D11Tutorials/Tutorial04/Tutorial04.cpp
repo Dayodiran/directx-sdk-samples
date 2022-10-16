@@ -399,14 +399,14 @@ HRESULT InitDevice()
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT4( 1.0f, 1.0f, 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT4( 0.0f, 0.0f, 0.0f, 1.0f ) },
+        { XMFLOAT3( -1.0f, 7.0f, -1.0f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
+        { XMFLOAT3( 1.0f, 7.0f, -1.0f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
+        { XMFLOAT3( 1.0f, 7.0f, 1.0f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
+        { XMFLOAT3( -1.0f, 7.0f, 1.0f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
+        { XMFLOAT3( -1.0f, -7.0f, -1.0f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
+        { XMFLOAT3( 1.0f, -7.0f, -1.0f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
+        { XMFLOAT3( 1.0f, -7.0f, 1.0f ), XMFLOAT4( 1.0f, 1.0f, 1.0f, 1.0f ) },
+        { XMFLOAT3( -1.0f, -7.0f, 1.0f ), XMFLOAT4( 0.0f, 0.0f, 0.0f, 1.0f ) },
     };
     D3D11_BUFFER_DESC bd = {};
     bd.Usage = D3D11_USAGE_DEFAULT;
@@ -481,7 +481,7 @@ HRESULT InitDevice()
     
 
     // Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet( -2.8f, 2.0f, -5.0f, 0.0f );
+	XMVECTOR Eye = XMVectorSet( -10.8f, 2.0f, -2.0f, 0.0f );
 	XMVECTOR At = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 	XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 	g_View = XMMatrixLookAtLH( Eye, At, Up );
@@ -571,7 +571,7 @@ void Render()
     {
     D3D11_RASTERIZER_DESC rasterDesc;
     rasterDesc.CullMode = D3D11_CULL_NONE;
-    rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
+    rasterDesc.FillMode = D3D11_FILL_SOLID;
     rasterDesc.ScissorEnable = false;
     rasterDesc.DepthBias = 0;
     rasterDesc.DepthBiasClamp = 0.0f;
@@ -584,10 +584,11 @@ void Render()
     g_pImmediateContext->RSSetState(m_rasterState);
     }
 
+
     //
     // Animate the cube
     //
-	g_World = XMMatrixRotationY( 0.5 );
+	g_World = XMMatrixRotationY( t );
 
     //
     // Clear the back buffer
@@ -602,6 +603,17 @@ void Render()
 	cb.mView = XMMatrixTranspose( g_View );
 	cb.mProjection = XMMatrixTranspose( g_Projection );
 	g_pImmediateContext->UpdateSubresource( g_pConstantBuffer, 0, nullptr, &cb, 0, 0 );
+
+
+
+    //XMMATRIX mScale = XMMatrixScaling(2.2f, 0.5f, 0.5f);
+    //g_World = XMMatrixIdentity();
+    //g_World *= mScale;
+    //cb.mWorld = XMMatrixTranspose(g_World);
+
+    //g_pImmediateContext->UpdateSubresource(g_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+
+
 
     //
     // Renders a triangle
