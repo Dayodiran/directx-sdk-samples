@@ -428,14 +428,24 @@ HRESULT InitDevice()
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
+        /*{ XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT4( 0.0f, 0.0f, 1.0f, 1.0f ) },
         { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT4( 0.0f, 1.0f, 0.0f, 1.0f ) },
         { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT4( 0.0f, 1.0f, 1.0f, 1.0f ) },
         { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT4( 1.0f, 0.0f, 0.0f, 1.0f ) },
         { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT4( 1.0f, 0.0f, 1.0f, 1.0f ) },
         { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT4( 1.0f, 1.0f, 0.0f, 1.0f ) },
         { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT4( 1.0f, 1.0f, 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT4( 0.0f, 0.0f, 0.0f, 1.0f ) },
+        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT4( 0.0f, 0.0f, 0.0f, 1.0f ) },*/
+
+        { XMFLOAT3(-1.0f, 4.0f, -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+        { XMFLOAT3(1.0f, 4.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
+        { XMFLOAT3(1.0f, 4.0f, 1.0f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) },
+        { XMFLOAT3(-1.0f, 4.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) },
+        { XMFLOAT3(-1.0f, -4.0f, -1.0f), XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f) },
+        { XMFLOAT3(1.0f, -4.0f, -1.0f), XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f) },
+        { XMFLOAT3(1.0f, -4.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) },
+        { XMFLOAT3(-1.0f, -4.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) },
+
     };
     D3D11_BUFFER_DESC bd = {};
     bd.Usage = D3D11_USAGE_DEFAULT;
@@ -598,7 +608,7 @@ void Render()
     XMMATRIX mSpin = XMMatrixRotationZ( -t );
     XMMATRIX mOrbit = XMMatrixRotationY( -t * 1.0f );
 	XMMATRIX mTranslate = XMMatrixTranslation( -3.0f, 0.0f, 0.0f );
-	XMMATRIX mScale = XMMatrixScaling( 0.3f, 0.3f, 0.3f );
+	XMMATRIX mScale = XMMatrixScaling( 0.5f, 0.1f, 0.5f );
 
 	g_World2 = mScale * mSpin * mTranslate * mOrbit;
 

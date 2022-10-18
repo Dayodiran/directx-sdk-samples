@@ -396,6 +396,7 @@ HRESULT InitDevice()
     if( FAILED( hr ) )
         return hr;
 
+
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
@@ -428,13 +429,9 @@ HRESULT InitDevice()
     //RASTERIZER STATE
 
 
-
     // Create index buffer
     WORD indices[] =
-    {
-        
-
-        3,1,0,
+    {   3,1,0,
         2,1,3,
 
         0,5,4,
